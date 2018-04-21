@@ -14,3 +14,7 @@
 $router->get('/', function () use ($router) {
     return $router->app->version();
 });
+
+//leader
+$router->get('/leaders', 'LeaderController@get');
+$router->post('/leader/add', 'LeaderController@add');
