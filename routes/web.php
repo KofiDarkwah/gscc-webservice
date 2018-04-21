@@ -33,5 +33,13 @@ $router->group(['middleware'=>'auth'], function () use ($router) {
         $router->post('add', 'LeaderController@add');
     });
 
+//ministry
+    $router->group(['prefix'=>'ministries'], function () use ($router) {
+        $router->get('/', 'MinistryController@get');
+        $router->get('{id}', 'MinistryController@show');
+        $router->put('{id}', 'MinistryController@edit');
+        $router->delete('{id}', 'MinistryController@delete');
+        $router->post('add', 'MinistryController@add');
+    });
 
 });
