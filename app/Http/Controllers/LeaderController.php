@@ -23,6 +23,12 @@ class LeaderController extends Controller
         return Leader::all();
     }
 
+    //get one leader
+    public function show($id)
+    {
+        return Leader::findOrFail($id);
+    }
+
     //add leader
     public function add(Request $request)
     {
