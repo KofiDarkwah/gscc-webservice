@@ -15,12 +15,23 @@ $router->get('/', function () use ($router) {
     return $router->app->version();
 });
 
-//user
-$router->post('/user/register', 'AuthController@register');
-$router->post('/user/login', 'AuthController@login');
-$router->get('/user/logout', 'AuthController@logout');
+$router->group(['middleware'=>'auth'], function () use ($router) {
+    //user
+    $router->group(['prefix'=> 'users'], function () use  ($router) {
+        $router->post('register', 'AuthController@register');
+        $router->post('login', 'AuthController@login');
+        $router->get('logout', 'AuthController@logout');
+        $router->get( '/', 'AuthController@get');
+    });
 
 //leader
-$router->get('/leaders', 'LeaderController@get');
-$router->get('/leader/{id}', 'LeaderController@show');
-$router->post('/leader/add', 'LeaderController@add');
+    $router->group(['prefix'=>'leaders'], function () use ($router) {
+        $router->get('/', 'LeaderController@get');
+        $router->get('{id}', 'LeaderController@show');
+        $router->put('{id}', 'LeaderController@edit');
+        $router->delete('{id}', 'LeaderController@delete');
+        $router->post('add', 'LeaderController@add');
+    });
+
+
+});

@@ -15,6 +15,12 @@ class AuthController extends Controller
 
     }
 
+    //show all users
+    public function get()
+    {
+        return User::all();
+    }
+
     //register user
     public function register(Request $request)
     {
@@ -43,6 +49,7 @@ class AuthController extends Controller
             return response()->json(['status'=>'error', 'message'=>'Invalid credentials'], 401);
         }
 
+        $user->update(['api_token'=>str_random(50)]);
         return response()->json(['status'=>'success', 'user'=>$user]);
     }
 
@@ -50,7 +57,7 @@ class AuthController extends Controller
     public function logout(Request $request)
     {
         //find user and delete api token
-        $user = User::where('api_token', $request->api_token)->first();
+        $user = User::where('api_token', $request->input('api_token'))->first();
         if(!$user) {
             return response()->json(['status'=>'error', 'message'=>'Not logged in'], 401);
         }
